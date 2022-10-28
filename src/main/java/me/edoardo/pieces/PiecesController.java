@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class PiecesController {
 
 	@GetMapping("/hashes")
 	public ArrayList<Map<String, Object>> index() {
@@ -23,13 +23,13 @@ public class HelloController {
 	}
 	
 	@GetMapping("/piece/{hashId}/{pieceIndex}")
-	public Map<String, Object> getHashByPieceIndex(@PathVariable byte[] hashId, @PathVariable int pieceIndex) {
+	public Map<String, Object> getHashByPieceIndex(@PathVariable String hashId, @PathVariable int pieceIndex) {
 		MerkleSingleton mkt = MerkleSingleton.getInstance();
 
-		// if (hashId.equals(mkt.rootNode.hash)) 
+		if (hashId.equals(mkt.rootAsString())) 
 			return mkt.proofResponse(pieceIndex);
-		// else 
-			// return null;
+		else 
+			return null;
 	}
 
 }

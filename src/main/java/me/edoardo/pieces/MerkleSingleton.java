@@ -14,11 +14,8 @@ import java.util.Map;
 public class MerkleSingleton {
 	// utility function: returns the HSA-256 of byte[]
 	public byte[] hashOf(byte[] sbytes) throws NoSuchAlgorithmException {
-		// TODO: MessageDigest must be passed
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] dd = digest.digest(sbytes);
-		// System.out.println("just " + hex(dd));
-
 		return dd;
 	}
 
@@ -48,8 +45,7 @@ public class MerkleSingleton {
 				levelParent.left.parent = levelParent; // pointer to allow navigation from leafs 	
 				if (nodes.size() == (i + 1)) {
 					levelParent.right = nodes.get(i);
-					// if we are at the far right of the tree
-					// there is no right node, so I put itself
+					// if we are at the far right of the tree, there is no right node, so I put itself
 				} else {
 					levelParent.right = nodes.get(i + 1);
 					levelParent.right.parent = levelParent;
@@ -73,7 +69,6 @@ public class MerkleSingleton {
 
 	static void browse(Node nn, ArrayList<String> out) {
 		if (nn.parent != null) { // I am not in the root
-			// System.out.println("item " + hex(sibling(nn).hash));
 			out.add(hex(sibling(nn).hash));
 			browse(nn.parent, out);
 		}
@@ -93,15 +88,11 @@ public class MerkleSingleton {
 
 	public Map<String, Object> proofResponse(int whichLeaf) {
 		HashMap<String, Object> proof = new HashMap<>();
-
-		System.out.println("ROOT should be 9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b: "
-				+ hex(rootNode.hash));
 		Node item = leafNodes.get(whichLeaf);
 		ArrayList<String> inheritance = new ArrayList<String>();
 		browse(item, inheritance);
 		proof.put("proof", inheritance);
 		proof.put("content", new String(Base64.getEncoder().encode(item.chunk)));
-
 		return proof;
 	}
 
