@@ -49,7 +49,7 @@ after start up one can issue requests such as:
 ```
 
 ## assignement notes
-There must be some kind of misunderstanding on my side about the assignment, which - running on the provided `icons_rgb_circle.png` file, generates an hash Merkle root  8613065bf7d194ec75316a8e3151e9189a5ce66a4080bd2089798bf94fc0d14a which does not match the one in the orgiginal README.md file of the task (9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b)
+There must be some kind of misunderstanding on my side about the assignment, which - running on the provided `icons_rgb_circle.png` file, generates an hash Merkle root  8613065bf7d194ec75316a8e3151e9189a5ce66a4080bd2089798bf94fc0d14a which does not match the one in the original README.md file of the task (9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b)
 everything else matches the provided test sample. 
 
 ## environment
