@@ -101,13 +101,21 @@ public class MerkleSingleton {
 		}
 	}
 
+	public String rootAsString() {
+		return hex(rootNode.hash);
+	}
+	public int numPieces() {
+		return leafNodes.size();
+	}
 	private static MerkleSingleton singleton = null;
+	public Node rootNode; 
+	ArrayList<Node> leafNodes;	
 
 	private MerkleSingleton(String which) throws NoSuchAlgorithmException, IOException {
         System.out.println("INIT: ");
 		byte[] itemData = Files.readAllBytes(Paths.get(which));
 
-		ArrayList<Node> leafNodes = new ArrayList<Node>();
+		leafNodes = new ArrayList<Node>();
 		for (int i = 0; i < itemData.length; i += 1024) {
 			byte[] chunk;
 			if (i + 1024 < itemData.length) { // we have a full chunk
@@ -121,7 +129,7 @@ public class MerkleSingleton {
 		}
 		System.out.println("created " + leafNodes.size() + " leafs...");
 
-		Node rootNode = build(leafNodes);
+		rootNode = build(leafNodes);
 		System.out.println("ROOT should be 9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b: " + hex(rootNode.hash));
 		Node item = leafNodes.get(8);
 		System.out.println("CONTENT: " + new String(Base64.getEncoder().encode(item.chunk)));
