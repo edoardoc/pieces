@@ -8,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MerkleSingleton {
 	// utility function: returns the HSA-256 of byte[]
@@ -94,22 +96,38 @@ public class MerkleSingleton {
 			return null;
 	}
 
-	static void browse(Node nn) {
+	static void browse(Node nn, ArrayList<String> out) {
 		if (nn.parent != null) { // I am not in the root
-			System.out.println("item " + hex(sibling(nn).hash));
-			browse(nn.parent);
+			// System.out.println("item " + hex(sibling(nn).hash));
+			out.add(hex(sibling(nn).hash));
+			browse(nn.parent, out);
 		}
 	}
-
+	
 	public String rootAsString() {
 		return hex(rootNode.hash);
 	}
 	public int numPieces() {
 		return leafNodes.size();
 	}
+	
 	private static MerkleSingleton singleton = null;
 	public Node rootNode; 
-	ArrayList<Node> leafNodes;	
+	ArrayList<Node> leafNodes;
+
+	public Map<String, Object> proofResponse(int whichLeaf) {
+		HashMap<String, Object> proof = new HashMap<>();
+
+		System.out.println("ROOT should be 9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b: " + hex(rootNode.hash));
+		Node item = leafNodes.get(whichLeaf);
+		ArrayList<String> inheritance = new ArrayList<String>();
+		browse(item, inheritance);
+		proof.put("proof", inheritance);
+		proof.put("content", new String(Base64.getEncoder().encode(item.chunk)));
+		// System.out.println("CONTENT: " + new String(Base64.getEncoder().encode(item.chunk)));
+
+		return proof;
+	}	
 
 	private MerkleSingleton(String which) throws NoSuchAlgorithmException, IOException {
         System.out.println("INIT: ");
@@ -130,10 +148,6 @@ public class MerkleSingleton {
 		System.out.println("created " + leafNodes.size() + " leafs...");
 
 		rootNode = build(leafNodes);
-		System.out.println("ROOT should be 9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b: " + hex(rootNode.hash));
-		Node item = leafNodes.get(8);
-		System.out.println("CONTENT: " + new String(Base64.getEncoder().encode(item.chunk)));
-		browse(item);		
 	}
 
 	public static MerkleSingleton getInstance() {

@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import me.edoardo.pieces.MerkleSingleton.Proof;
 
 @RestController
 public class HelloController {
@@ -20,5 +23,16 @@ public class HelloController {
 		res.add(map);
 		return res;
 	}
+	
+	@GetMapping("/piece/{hashId}/{pieceIndex}")
+	public Map<String, Object> getHashByPieceIndex(@PathVariable byte[] hashId, @PathVariable int pieceIndex) {
+		MerkleSingleton mkt = MerkleSingleton.getInstance();
+
+		// if (hashId.equals(mkt.rootNode.hash)) 
+			return mkt.proofResponse(pieceIndex);
+		// else 
+			// return null;
+	}
+
 
 }
