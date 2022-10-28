@@ -32,9 +32,8 @@ public class Node {
 	 * @throws NoSuchAlgorithmException
 	 */
 	public byte[] treeHash() throws NoSuchAlgorithmException {
-		byte[] leftHash = this.left.hash;
-		byte[] rightHash = this.right != null ? this.right.hash : leftHash; // If no right child exists, reuse the left child's value
-		return hashOf(add(leftHash, rightHash));
+		byte[] result = hashOf(add(this.left.hash, this.right.hash));
+		return result;
 	}
 
 	/** constructor that calculates the SHA256 of this leaf data chunk
