@@ -1,11 +1,7 @@
 # Getting Started
 
-I understand this solution is not enough to reach the second part of my interview, I just - out of curiolsity - would like to know on what basis you are saying that the root of my solution (of the given file) is "wrong"; since it is different than yours because of a different calculation of the rightmost leaves.
-
 
 ## assignement notes
-There must be some kind of misunderstanding on my side about the assignment, which - running on the provided `icons_rgb_circle.png` file, generates an hash Merkle root  8613065bf7d194ec75316a8e3151e9189a5ce66a4080bd2089798bf94fc0d14a which does not match the one in the original README.md file of the task (9b39e1edb4858f7a3424d5a3d0c4579332640e58e101c29f99314a12329fc60b)
-everything else matches the provided test sample. 
 
 
 
